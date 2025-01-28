@@ -1,0 +1,12 @@
+Package: gsapy
+Title: 'Shiny' interface for GSAP JavaScript animations
+Version: 0.0.0.9000
+Authors@R: 
+    person("Veerle", "Eeftink - van Leemput", , "veerle@hypebright.nl", role = c("aut", "cre"))
+Description: Wrapper around the GSAP JavaScript library to create animations in 'Shiny' applications,
+    including the publicly available ScrollTrigger plugin.
+License: MIT + file LICENSE
+BugReports: https://github.com/hypebright/gsapy/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
