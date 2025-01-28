@@ -1,1 +1,8 @@
 ^LICENSE\.md$
+^node_modules$
+^srcjs$
+^package\.json$
+^package-lock\.json$
+^styles$
+^esbuild\.dev\.js$
+^esbuild\.prod\.js$
