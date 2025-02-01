@@ -1,2 +1,2 @@
 import './init.js'
-import './ScrollTrigger.js'
+import './gsapy.js'

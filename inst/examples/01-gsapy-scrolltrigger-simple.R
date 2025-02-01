@@ -3,9 +3,10 @@ library(bslib)
 library(gsapy)
 
 ui <- page_navbar(
-  header = tagList(
-    useGsapy()
-  ),
+  # TODO: Optional, might be handy for server side animations
+  # header = tagList(
+  #   useGsapy()
+  # ),
   fillable = FALSE,
   id = "navbar_id",
   title = "gsap scroll adventures",
@@ -42,13 +43,14 @@ ui <- page_navbar(
             actionButton("show_dynamic_ui", "Add card"),
             uiOutput("dynamic_ui"),
             br(),
-            lapply(1:10, function(i) {
-              card(
-                card_header(paste0("Card ", i), class = "bg-primary"),
-                card_body(
-                  p("This is some text"),
-                  p("This is other text"),
-                  p("This is some very long lorem ipsum text: lorem ipsum
+            withGsapy(
+              lapply(1:10, function(i) {
+                card(
+                  card_header(paste0("Card ", i), class = "bg-primary"),
+                  card_body(
+                    p("This is some text"),
+                    p("This is other text"),
+                    p("This is some very long lorem ipsum text: lorem ipsum
                     dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                     minim veniam, quis nostrud exercitation ullamco laboris nisi
@@ -56,10 +58,11 @@ ui <- page_navbar(
                     reprehenderit in voluptate velit esse cillum dolore eu fugiat
                     nulla pariatur. Excepteur sint occaecat cupidatat non proident,
                     sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                ),
-                card_footer("Fooooter")
-              )
-            })
+                  ),
+                  card_footer("Fooooter")
+                )
+              })
+            )
   ),
   nav_panel("ScrollSmoother",
             icon = icon("running")
@@ -76,7 +79,6 @@ ui <- page_navbar(
 
 server <- function(input, output, session) {
 
-  # When toggle is TRUE, show dynamic UI
   output$dynamic_ui <- renderUI({
     req(input$show_dynamic_ui, input$name_dynamic_ui)
     tagAppendAttributes(
@@ -96,6 +98,7 @@ server <- function(input, output, session) {
       )
     )
   })
+
 }
 
 shinyApp(ui, server)

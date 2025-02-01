@@ -6,3 +6,5 @@
 ^styles$
 ^esbuild\.dev\.js$
 ^esbuild\.prod\.js$
+^.*\.Rproj$
+^\.Rproj\.user$

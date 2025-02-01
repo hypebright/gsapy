@@ -2,7 +2,10 @@
 
 export(add_gsapy_deps)
 export(useGsapy)
+export(withGsapy)
+importFrom(digest,digest)
 importFrom(htmltools,htmlDependency)
+importFrom(htmltools,tagAppendAttributes)
 importFrom(htmltools,tagList)
 importFrom(htmltools,withTags)
 importFrom(utils,packageVersion)
