@@ -51,16 +51,20 @@ withGsapy <- function(element, id = NULL,
     # This is useful if multiple cards are targetted with the same animation
     element <- lapply(element, function(el) {
       htmltools::tagAppendAttributes(el,
+                                     class = "gsapy",
                                      `data-gsapy-id` = id,
-                                     `data-gsapy-animation` = animation)
+                                     `data-gsapy-animation` = animation,
+                                     `data-gsapy-level` = "child")
     })
 
 
   } else {
     # If single element, add unique id to element
     element <- htmltools::tagAppendAttributes(element,
+                                              class = "gsapy",
                                               `data-gsapy-id` = id,
-                                              `data-gsapy-animation` = animation)
+                                              `data-gsapy-animation` = animation,
+                                              `data-gsapy-level` = "parent")
   }
 
   # Return element with new attributes, and attach dependencies

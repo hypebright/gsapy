@@ -3,12 +3,10 @@ import { gsap } from './init.js';
 // 1. fadeIn animation
 // This animation fades in elements on scroll down, and fades out on scroll up
 
-function fadeIn(id) {
-
-  const selector = '[data-gsapy-id="' + id + '"]';
+function fadeIn(animationClass) {
 
   // scroll down
-  gsap.utils.toArray(selector).forEach((el, i) => {
+  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
     gsap.from(el, {
       scrollTrigger: {
         trigger: el,
@@ -23,7 +21,7 @@ function fadeIn(id) {
   });
 
   // scroll up
-  gsap.utils.toArray(selector).forEach((el, i) => {
+  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
     gsap.to(el, {
       scrollTrigger: {
         trigger: el,
