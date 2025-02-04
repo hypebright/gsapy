@@ -37,7 +37,7 @@ withGsapy <- function(element, id = NULL,
                       duration = 1) {
 
   # TODO: loop, duration args
-  # TODO: dynamic UI handling
+  # TODO: options argument?
   # TODO: add custom animations
 
   # Attach special data attribute to element, containing an unique gsapy id
@@ -46,15 +46,25 @@ withGsapy <- function(element, id = NULL,
     id <- paste0("gsapy-", digest::digest(element))
   }
 
-  if (length(element) > 1) {
-    # If multiple elements, add unique id to each child element
-    # This is useful if multiple cards are targetted with the same animation
+  # Does the element consist of multiple Shiny UI elements?
+ if(all(sapply(element, inherits, "shiny.tag"))) {
+    parent <- TRUE
+  } else {
+    parent <- FALSE
+  }
+
+  if (parent) {
+    # If multiple UI elements, add unique id to each child element
+    # This is useful if multiple cards are targeted with the same animation,
+    # for example using a tagList or a lapply call
     element <- lapply(element, function(el) {
-      htmltools::tagAppendAttributes(el,
-                                     class = "gsapy",
-                                     `data-gsapy-id` = id,
-                                     `data-gsapy-animation` = animation,
-                                     `data-gsapy-level` = "child")
+      if (inherits(el, "shiny.tag") || inherits(el, "shiny.tag.list")) {
+        htmltools::tagAppendAttributes(el,
+                                       class = "gsapy",
+                                       `data-gsapy-id` = id,
+                                       `data-gsapy-animation` = animation,
+                                       `data-gsapy-level` = "child")
+      }
     })
 
 

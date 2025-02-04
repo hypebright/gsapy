@@ -81,12 +81,13 @@ server <- function(input, output, session) {
 
   output$dynamic_ui <- renderUI({
     req(input$show_dynamic_ui, input$name_dynamic_ui)
-    tagAppendAttributes(
-      style = "margin-top: 30px",
-      card(
-        card_header(input$name_dynamic_ui, class = "bg-secondary"),
-        card_body(
-          p("This is some very long lorem ipsum text: lorem ipsum
+    withGsapy(
+      tagAppendAttributes(
+        style = "margin-top: 30px",
+        card(
+          card_header(input$name_dynamic_ui, class = "bg-secondary"),
+          card_body(
+            p("This is some very long lorem ipsum text: lorem ipsum
           dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi
@@ -94,6 +95,7 @@ server <- function(input, output, session) {
           reprehenderit in voluptate velit esse cillum dolore eu fugiat
           nulla pariatur. Excepteur sint occaecat cupidatat non proident,
           sunt in culpa qui officia deserunt mollit anim id est laborum.")
+          )
         )
       )
     )
