@@ -44,6 +44,7 @@ ui <- page_navbar(
             uiOutput("dynamic_ui"),
             br(),
             withGsapy(
+              animation = "zoomIn",
               lapply(1:10, function(i) {
                 card(
                   card_header(paste0("Card ", i), class = "bg-primary"),

@@ -1,4 +1,4 @@
-import { fadeIn } from './animations.js'
+import { fadeIn, zoomIn } from './animations.js'
 
 $(document).ready(function() {
 
@@ -14,6 +14,10 @@ $(document).ready(function() {
 
     if (animation === 'fadeIn') {
       fadeIn(animationClass);
+    }
+
+    if (animation === 'zoomIn') {
+      zoomIn(animationClass);
     }
 
   });

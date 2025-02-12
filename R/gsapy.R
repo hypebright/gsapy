@@ -23,7 +23,11 @@ useGsapy <- function() {
 #' @param id Optional id to attach to element with the GSAP animation. This
 #' id will be stored as a data attribute on the element and can be used to
 #' target the element in custom JavaScript code.
-#' @param animation Name of the animation to apply
+#' @param animation Name of the animation to apply. Currently supported are
+#' - "fadeIn": Fade in elements that appear in the viewport on scroll, and
+#' fade out elements that disappear from the viewport.
+#' - "zoomIn": Zoom in (scale) elements that appear in the viewport on scroll,
+#' and zoom out elements that disappear from the viewport.
 #' @param loop Boolean indicating whether the animation should repeat or is a one-off
 #' @param duration Duration of the animation in seconds
 #'
@@ -39,6 +43,9 @@ withGsapy <- function(element, id = NULL,
   # TODO: loop, duration args
   # TODO: options argument?
   # TODO: add custom animations
+
+  # Check for allowed animations
+  match.arg(animation, c("fadeIn", "zoomIn"))
 
   # Attach special data attribute to element, containing an unique gsapy id
   # this id is being used to target the element on the JS side

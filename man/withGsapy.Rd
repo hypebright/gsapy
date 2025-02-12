@@ -13,7 +13,13 @@ withGsapy(element, id = NULL, animation = "fadeIn", loop = FALSE, duration = 1)
 id will be stored as a data attribute on the element and can be used to
 target the element in custom JavaScript code.}
 
-\item{animation}{Name of the animation to apply}
+\item{animation}{Name of the animation to apply. Currently supported are
+\itemize{
+\item "fadeIn": Fade in elements that appear in the viewport on scroll, and
+fade out elements that disappear from the viewport.
+\item "zoomIn": Zoom in (scale) elements that appear in the viewport on scroll,
+and zoom out elements that disappear from the viewport.
+}}
 
 \item{loop}{Boolean indicating whether the animation should repeat or is a one-off}
 
