@@ -14,6 +14,10 @@ ui <- page_navbar(
                    preset = "zephyr"),
   nav_panel("ScrollTrigger",
             icon = icon("medal"),
+            # picker with animation options
+            selectInput("animation", "Choose animation",
+                        choices = c("fadeIn", "zoomIn"),
+                        selected = "zoomIn"),
             layout_column_wrap(
               max_height = "150px",
               value_box(
@@ -44,6 +48,7 @@ ui <- page_navbar(
             uiOutput("dynamic_ui"),
             br(),
             withGsapy(
+              id = "cards",
               animation = "zoomIn",
               lapply(1:10, function(i) {
                 card(
@@ -101,6 +106,11 @@ server <- function(input, output, session) {
       )
     )
   })
+
+  # Change animation based on input
+  observe({
+    updateGsapy("cards", input$animation)
+  }) |> bindEvent(input$animation, ignoreInit = TRUE)
 
 }
 

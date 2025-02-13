@@ -45,7 +45,7 @@ withGsapy <- function(element, id = NULL,
   # TODO: add custom animations
 
   # Check for allowed animations
-  match.arg(animation, c("fadeIn", "zoomIn"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn"))
 
   # Attach special data attribute to element, containing an unique gsapy id
   # this id is being used to target the element on the JS side
@@ -91,4 +91,27 @@ withGsapy <- function(element, id = NULL,
     )
   )
 
+}
+
+#' Update GSAP animation
+#'
+#' You can use this function from the server side to change the
+#' animation effect, for example from fadeIn to zoomIn.
+#'
+#' @param id The id of the GSAP animation to update.
+#' @param animation The new animation to apply. Currently supported are
+#' - "fadeIn": Fade in elements that appear in the viewport on scroll, and
+#' fade out elements that disappear from the viewport.
+#' - "zoomIn": Zoom in (scale) elements that appear in the viewport on scroll,
+#' and zoom out elements that disappear from the viewport.
+#'
+#' @export
+#'
+updateGsapy <- function(id, animation, session = shiny::getDefaultReactiveDomain()) {
+
+  animation <- match.arg(animation, c("fadeIn", "zoomIn"))
+
+  # send message to JavaScript with the id
+  session$sendCustomMessage("update-gsapy", list(id = id,
+                                                 animation = animation))
 }
