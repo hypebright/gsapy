@@ -70,9 +70,6 @@ ui <- page_navbar(
               })
             )
   ),
-  nav_panel("ScrollSmoother",
-            icon = icon("running")
-  ),
   nav_menu(title = "Flip",
            align = "right",
            icon = icon("basketball-ball"),
