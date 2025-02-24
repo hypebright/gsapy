@@ -102,7 +102,41 @@ function zoomIn(animationClass) {
 }
 
 // 3. slideIn animation
-// TODO
+function slideIn(animationClass) {
+  // Kill any previous animations
+  killAnimations(animationClass);
+
+  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
+    gsap.from(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      },
+      overwrite: true,
+      x: -100,
+      opacity: 0,
+      duration: 1,
+      delay: 0.5
+    });
+  });
+
+  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
+    gsap.to(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+      },
+      overwrite: true,
+      x: 0,
+      opacity: 1,
+      duration: 1,
+      delay: 0.5
+    });
+  });
+
+}
 
 // 4. accordion animation
 // Display elements as accordion
@@ -128,4 +162,4 @@ function accordion(animationClass) {
 }
 
 // export functions
-export { fadeIn, zoomIn, accordion };
+export { fadeIn, zoomIn, accordion, slideIn };
