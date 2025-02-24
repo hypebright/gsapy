@@ -101,5 +101,31 @@ function zoomIn(animationClass) {
   });
 }
 
+// 3. slideIn animation
+// TODO
+
+// 4. accordion animation
+// Display elements as accordion
+
+function accordion(animationClass) {
+  // Kill any previous animations
+  killAnimations(animationClass);
+
+  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
+    gsap.from(el, {
+      scrollTrigger: {
+        trigger: el,
+        pin: true,
+        scrub: true,
+        pinSpacing: false,
+        ease: 'linear'
+      },
+      overwrite: true,
+      duration: 1,
+      delay: 0.5
+    });
+  });
+}
+
 // export functions
-export { fadeIn, zoomIn };
+export { fadeIn, zoomIn, accordion };

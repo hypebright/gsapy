@@ -16,7 +16,7 @@ ui <- page_navbar(
             icon = icon("medal"),
             # picker with animation options
             selectInput("animation", "Choose animation",
-                        choices = c("fadeIn", "zoomIn"),
+                        choices = c("fadeIn", "zoomIn", "accordion"),
                         selected = "zoomIn"),
             layout_column_wrap(
               max_height = "150px",

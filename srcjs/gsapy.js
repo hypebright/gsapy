@@ -1,4 +1,4 @@
-import { fadeIn, zoomIn } from './animations.js'
+import { fadeIn, zoomIn, accordion } from './animations.js'
 
 $(document).ready(function() {
 
@@ -17,6 +17,10 @@ $(document).ready(function() {
 
     if (animation === 'zoomIn') {
       zoomIn(animationClass);
+    }
+
+    if (animation === 'accordion') {
+      accordion(animationClass);
     }
 
   });
@@ -50,6 +54,10 @@ $(document).ready(function() {
 
     if (message.animation === 'zoomIn') {
       zoomIn(animationClass);
+    }
+
+    if (message.animation === 'accordion') {
+      accordion(animationClass);
     }
 
   });
