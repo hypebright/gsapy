@@ -49,7 +49,7 @@ ui <- page_navbar(
             br(),
             withGsapy(
               id = "cards",
-              animation = "zoomIn",
+              animation = "fadeIn",
               lapply(1:10, function(i) {
                 card(
                   card_header(paste0("Card ", i), class = "bg-primary"),
