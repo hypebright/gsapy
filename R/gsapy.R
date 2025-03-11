@@ -6,8 +6,8 @@
 
 useGsapy <- function() {
 
-  gsapyTag <- withTags(
-    div(class = "gsapyDeps")
+  gsapyTag <- htmltools::withTags(
+    shiny::div(class = "gsapyDeps")
   )
 
   add_gsapy_deps(gsapyTag)
