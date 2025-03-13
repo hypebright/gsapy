@@ -1,13 +1,13 @@
 #' Add gsapy dependencies
 #'
-#' @importFrom htmltools withTags
+#' @importFrom htmltools withTags div
 #' @return A tagList with the gsapy dependencies
 #' @export
 
 useGsapy <- function() {
 
   gsapyTag <- htmltools::withTags(
-    shiny::div(class = "gsapyDeps")
+    htmltools::div(class = "gsapyDeps")
   )
 
   add_gsapy_deps(gsapyTag)
