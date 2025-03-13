@@ -8,3 +8,7 @@
 ^esbuild\.prod\.js$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
