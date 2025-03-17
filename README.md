@@ -2,10 +2,16 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
+> [!WARNING]
+> The gsapy package is in its initial stages and is subject to change. Things may not work as expected or at all, and things may break in the future.
+
+
 # gsapy
+
 R Shiny interface for GSAP – wildly robust JavaScript animations ✨
 
 # Installation
+
 You can install the development version of `gsapy` from GitHub with:
 
 ```r
@@ -13,14 +19,22 @@ pak::pak("hypebright/gsapy")
 ```
 
 # Animations
+
 With `gsapy` you can bring GSAP animations to your Shiny elements without any JavaScript knowledge. The aim is to provide an R interface for common and simple GSAP animations. Currently we support the following animations:
 
-| Animation | Plugin | Description |
-| --- | --- | --- |
-| `fadeIn` | ScrollTrigger | Fade in/out |
-| `zoomIn` | ScrollTrigger | Zoom in/out |
-| `slideIn` | ScrollTrigger | Slide in/out |
-| `accordion` | ScrollTrigger | Stack elements |
+| Animation | Trigger | Plugin | Description |
+| --- | --- | --- | --- |
+| `fadeIn` | Scroll down/up | ScrollTrigger | Fade in/out |
+| `zoomIn` | Scroll down/up | ScrollTrigger | Zoom in/out |
+| `slideIn` | Scroll down/up | ScrollTrigger | Slide in/out |
+| `accordion` | Scroll down/up | ScrollTrigger | Stack elements |
+
+What can you expect in the future?
+
+* Animations with different triggers: on click, hover and possibly other events
+* More animations, like carousel, parallax, and anything else that seems fun
+* Animations with other (freely available) GSAP plugins
+* For more tailored/advanced animations: defining your own tweens and timelines using JS
 
 # Using gsapy
 
