@@ -10,6 +10,9 @@
 
 R Shiny interface for GSAP – wildly robust JavaScript animations ✨
 
+Do you want to create awesome UI and UX animations in your Shiny applications without understanding timelines, tweens, or writing any JavaScript for that matter? Hey, `gsapy` 👋!
+This package provides a simple and elegant way to integrate GSAP (GreenSock Animation Platform) animations into your Shiny apps.
+
 # Installation
 
 You can install the development version of `gsapy` from GitHub with:
