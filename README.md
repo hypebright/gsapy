@@ -6,7 +6,7 @@
 > The gsapy package is in its initial stages and is subject to change. Things may not work as expected or at all, and things may break in the future.
 
 
-# gsapy
+# gsapy <img src="man/figures/logo.png" width="200px" align="right"/>
 
 R Shiny interface for GSAP – wildly robust JavaScript animations ✨
 
