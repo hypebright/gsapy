@@ -112,8 +112,8 @@ This R package provides an R interface to [GSAP (GreenSock Animation Platform)](
 
 In October 2024, GSAP got acquired by [Webflow](https://webflow.com/), a popular web design platform. Despite the acquisition, GSAP will continue to be publicly available for all developers, and the GSAP team will continue to maintain and improve the library. The aim is that GSAP continues to be the go-to toolset for web animators everywhere.
 And it even got better... As of GSAP version 3.13, released in April 2025, there have been significant changes to the licensing model.
-**GSAP is now 100% FREE** including the bonus plugins like SplitText, MorphSVG, and all the others that were exclusively available to Club GSAP members. even for commercial use! 🥳 The license used is the standard "No Charge" license. For more information you can check out
-the [licensing page](https://gsap.com/community/standard-license/).
+**GSAP is now 100% FREE** including the bonus plugins like SplitText, MorphSVG, and all the others that were exclusively available to Club GSAP members, even for commercial use! 🥳 The license used is the standard "No Charge" license. For more information you can check out
+the [announcement](https://gsap.com/blog/3-13/?__s=8m3ouioiaxbfmo26ny5o) and new [licensing page](https://gsap.com/community/standard-license/).
 
 This means: unlimited GSAP powered animations in your website or app! And for `gsapy` this means that we can use all the GSAP plugins without any restrictions. So expect more animations in the future! 🎉
 
