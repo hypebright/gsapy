@@ -19,10 +19,23 @@ function killAnimations(animationClass) {
   });
 }
 
+// function that checks if given class is found, returns warning when not
+function checkClassExists(className) {
+  const elements = gsap.utils.toArray('.' + className);
+  if (!elements.length) {
+    console.warn(`No elements found for class: ${className}`);
+    return false;
+  }
+  return true;
+}
+
 // 1. fadeIn animation
 // This animation fades in elements on scroll down, and fades out on scroll up
-
 function fadeIn(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
 
   // kill any previous animations
   killAnimations(animationClass);
@@ -62,8 +75,11 @@ function fadeIn(animationClass) {
 
 // 2. zoomIn animation
 // This animation zooms in elements on scroll down, and zooms out on scroll up
-
 function zoomIn(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
 
   // kill any previous animations
   killAnimations(animationClass);
@@ -103,6 +119,11 @@ function zoomIn(animationClass) {
 
 // 3. slideIn animation
 function slideIn(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
   // Kill any previous animations
   killAnimations(animationClass);
 
@@ -140,11 +161,9 @@ function slideIn(animationClass) {
 
 // 4. accordion animation
 // Display elements as accordion
-
 function accordion(animationClass) {
-  const elements = gsap.utils.toArray('.' + animationClass);
-  if (!elements.length) {
-    console.warn(`No elements found for class: ${animationClass}`);
+  // check for class
+  if (!checkClassExists(animationClass)) {
     return;
   }
 
@@ -158,8 +177,7 @@ function accordion(animationClass) {
       start: 'top top',
       end: 'bottom top',
       scrub: 1,
-      ease: 'linear',
-      markers: true
+      ease: 'linear'
     }
   }).to('.' + animationClass, {
     height: 0,
