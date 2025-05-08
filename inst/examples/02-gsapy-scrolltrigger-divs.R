@@ -3,7 +3,7 @@ library(bslib)
 library(gsapy)
 
 ui <- page_fillable(
-  title = "gsap scroll adventures",
+  title = "GSAP scroll adventures",
   # animation options
   selectInput("animation", "Choose animation",
               choices = c("fadeIn", "zoomIn", "accordion", "slideIn"),
@@ -18,7 +18,8 @@ ui <- page_fillable(
         img(src = paste0("https://picsum.photos/600/300?random=", i))
       )
     })
-  )
+  ),
+  p("Other content")
 )
 
 server <- function(input, output, session) {

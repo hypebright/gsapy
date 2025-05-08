@@ -74,6 +74,24 @@ withGsapy <- function(element, id = NULL,
       }
     })
 
+    # Wrap the elements in a div with class gsapy-wrapper and gsapy-content
+    # This is useful for e.g. ScrollSmoother
+    element <- htmltools::tagList(
+      htmltools::div(
+        class = "gsapy-wrapper",
+        id = paste0("gsapy-wrapper-", digest::digest(element)),
+        htmltools::div(
+          class = "gsapy-content",
+          id = paste0("gsapy-content-", digest::digest(element)),
+          htmltools::div(
+            class = "gsapy-animations",
+            id = paste0("gsapy-animations-", digest::digest(element)),
+            element
+          )
+        )
+      )
+    )
+
 
   } else {
     # If single element, add unique id to element

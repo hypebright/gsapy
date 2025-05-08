@@ -142,22 +142,30 @@ function slideIn(animationClass) {
 // Display elements as accordion
 
 function accordion(animationClass) {
-  // Kill any previous animations
+  const elements = gsap.utils.toArray('.' + animationClass);
+  if (!elements.length) {
+    console.warn(`No elements found for class: ${animationClass}`);
+    return;
+  }
+
+  // Kill previous animations
   killAnimations(animationClass);
 
-  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        pin: true,
-        scrub: true,
-        pinSpacing: false,
-        ease: 'linear'
-      },
-      overwrite: true,
-      duration: 1,
-      delay: 0.5
-    });
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.gsapy-animations',
+      pin: true,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1,
+      ease: 'linear',
+      markers: true
+    }
+  }).to('.' + animationClass, {
+    height: 0,
+    paddingBottom: 0,
+    opacity: 0,
+    stagger: 0.5
   });
 }
 
