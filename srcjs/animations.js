@@ -173,11 +173,11 @@ function stack(animationClass) {
   gsap.timeline({
     scrollTrigger: {
       trigger: '.gsapy-animations',
-      pin: true,
+      pin: '.gsapy-wrapper',
       start: 'top top',
       end: 'bottom top',
       scrub: 1,
-      ease: 'linear'
+      ease: 'none'
     }
   }).to('.' + animationClass, {
     height: 0,
