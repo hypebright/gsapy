@@ -30,7 +30,7 @@ With `gsapy` you can bring GSAP animations to your Shiny elements without any Ja
 | `fadeIn` | Scroll down/up | ScrollTrigger | Fade in/out |
 | `zoomIn` | Scroll down/up | ScrollTrigger | Zoom in/out |
 | `slideIn` | Scroll down/up | ScrollTrigger | Slide in/out |
-| `accordion` | Scroll down/up | ScrollTrigger | Stack elements |
+| `stack` | Scroll down/up | ScrollTrigger | Stack elements |
 
 What can you expect in the future?
 
@@ -79,7 +79,7 @@ ui <- page_fillable(
   title = "gsap scroll adventures",
   # animation options
   selectInput("animation", "Choose animation",
-              choices = c("fadeIn", "zoomIn", "accordion", "slideIn"),
+              choices = c("fadeIn", "zoomIn", "stack", "slideIn"),
               selected = "fadeIn"),
   withGsapy(
     id = "divs",

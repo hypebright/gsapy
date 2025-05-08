@@ -159,9 +159,9 @@ function slideIn(animationClass) {
 
 }
 
-// 4. accordion animation
-// Display elements as accordion
-function accordion(animationClass) {
+// 4. stack animation
+// Display elements as stack
+function stack(animationClass) {
   // check for class
   if (!checkClassExists(animationClass)) {
     return;
@@ -188,4 +188,4 @@ function accordion(animationClass) {
 }
 
 // export functions
-export { fadeIn, zoomIn, accordion, slideIn };
+export { fadeIn, zoomIn, stack, slideIn };

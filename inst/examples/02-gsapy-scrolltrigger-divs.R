@@ -6,7 +6,7 @@ ui <- page_fillable(
   title = "GSAP scroll adventures",
   # animation options
   selectInput("animation", "Choose animation",
-              choices = c("fadeIn", "zoomIn", "accordion", "slideIn"),
+              choices = c("fadeIn", "zoomIn", "stack", "slideIn"),
               selected = "fadeIn"),
   withGsapy(
     id = "divs",
