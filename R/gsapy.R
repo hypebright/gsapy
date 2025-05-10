@@ -64,10 +64,18 @@ withGsapy <- function(element, id = NULL,
     # If multiple UI elements, add unique id to each child element
     # This is useful if multiple cards are targeted with the same animation,
     # for example using a tagList or a lapply call
-    element <- lapply(element, function(el) {
+    element <- lapply(seq_along(element), function(i) {
+      el <- element[[i]]
       if (inherits(el, "shiny.tag") || inherits(el, "shiny.tag.list")) {
+        # if last element, add .last-child class
+        if (i == length(element)) {
+          class <- "gsapy last-child"
+        } else {
+          class <- "gsapy"
+        }
+
         htmltools::tagAppendAttributes(el,
-                                       class = "gsapy",
+                                       class = class,
                                        `data-gsapy-id` = id,
                                        `data-gsapy-animation` = animation,
                                        `data-gsapy-level` = "child")
