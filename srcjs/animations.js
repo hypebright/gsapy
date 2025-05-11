@@ -8,7 +8,6 @@ let tl = null;
 function killAnimations(animationClass) {
 
     if (tl) {
-      console.log('killing timeline')
       tl.kill(true);
     }
 
