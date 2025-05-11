@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from './init.js';
+import { gsap, ScrollTrigger, SplitText } from './init.js';
 
 // Init
 let tl = null;
@@ -195,5 +195,34 @@ function stack(animationClass) {
   });
 }
 
+// 5. Stagger text using splittext
+function staggerText(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  SplitText.create('.' + animationClass, {
+    type: "words, chars",
+    onSplit(self) { // runs every time it splits
+      gsap.from(self.chars, {
+        duration: 0.5,
+        opacity: 0,
+        scale: 0,
+        y: 80,
+        rotationX: 150,
+        transformOrigin: "0% 50% -50",
+        ease: "back",
+        stagger: 0.01,
+      });
+    }
+  });
+
+
+}
+
 // export functions
-export { fadeIn, zoomIn, stack, slideIn };
+export { fadeIn, zoomIn, stack, slideIn, staggerText };

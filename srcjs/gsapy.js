@@ -1,4 +1,4 @@
-import { fadeIn, zoomIn, stack, slideIn } from './animations.js'
+import { fadeIn, zoomIn, stack, slideIn, staggerText } from './animations.js'
 
 $(document).ready(function() {
 
@@ -25,6 +25,10 @@ $(document).ready(function() {
 
     if (animation === 'slideIn') {
       slideIn(animationClass);
+    }
+
+    if (animation === 'stagger') {
+      staggerText(animationClass);
     }
 
   });
@@ -66,6 +70,10 @@ $(document).ready(function() {
 
     if (message.animation === 'slideIn') {
       slideIn(animationClass);
+    }
+
+    if (message.animation === 'stagger') {
+      staggerText(animationClass);
     }
 
   });

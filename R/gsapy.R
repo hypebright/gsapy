@@ -45,7 +45,7 @@ withGsapy <- function(element, id = NULL,
   # TODO: add custom animations
 
   # Check for allowed animations
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "stagger"))
 
   # Attach special data attribute to element, containing an unique gsapy id
   # this id is being used to target the element on the JS side
@@ -135,7 +135,7 @@ withGsapy <- function(element, id = NULL,
 #'
 updateGsapy <- function(id, animation, session = shiny::getDefaultReactiveDomain()) {
 
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "stagger"))
 
   # send message to JavaScript with the id
   session$sendCustomMessage("update-gsapy", list(id = id,
