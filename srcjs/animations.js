@@ -1,8 +1,17 @@
 import { gsap, ScrollTrigger } from './init.js';
 
+// Init
+let tl = null;
+
 // Utils
 // function to make sure any previous animations are killed before applying a new one
 function killAnimations(animationClass) {
+
+    if (tl) {
+      console.log('killing timeline')
+      tl.kill(true);
+    }
+
     gsap.utils.toArray('.' + animationClass).forEach((el) => {
       // Kill any existing tweens on this element
       gsap.killTweensOf(el);
@@ -10,7 +19,7 @@ function killAnimations(animationClass) {
       // Kill any ScrollTrigger instances attached to this element
       ScrollTrigger.getAll().forEach(trigger => {
           if (trigger.trigger === el) {
-              trigger.kill();
+              trigger.kill(true);
           }
       });
 
@@ -170,7 +179,7 @@ function stack(animationClass) {
   // Kill previous animations
   killAnimations(animationClass);
 
-  gsap.timeline({
+  tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.gsapy-animations',
       pin: '.gsapy-wrapper',
