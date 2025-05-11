@@ -1,4 +1,4 @@
-import { fadeIn, zoomIn, accordion, slideIn } from './animations.js'
+import { fadeIn, zoomIn, stack, slideIn } from './animations.js'
 
 $(document).ready(function() {
 
@@ -19,8 +19,8 @@ $(document).ready(function() {
       zoomIn(animationClass);
     }
 
-    if (animation === 'accordion') {
-      accordion(animationClass);
+    if (animation === 'stack') {
+      stack(animationClass);
     }
 
     if (animation === 'slideIn') {
@@ -60,8 +60,8 @@ $(document).ready(function() {
       zoomIn(animationClass);
     }
 
-    if (message.animation === 'accordion') {
-      accordion(animationClass);
+    if (message.animation === 'stack') {
+      stack(animationClass);
     }
 
     if (message.animation === 'slideIn') {

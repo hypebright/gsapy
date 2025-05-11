@@ -45,7 +45,7 @@ withGsapy <- function(element, id = NULL,
   # TODO: add custom animations
 
   # Check for allowed animations
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "accordion", "slideIn"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn"))
 
   # Attach special data attribute to element, containing an unique gsapy id
   # this id is being used to target the element on the JS side
@@ -64,15 +64,41 @@ withGsapy <- function(element, id = NULL,
     # If multiple UI elements, add unique id to each child element
     # This is useful if multiple cards are targeted with the same animation,
     # for example using a tagList or a lapply call
-    element <- lapply(element, function(el) {
+    element <- lapply(seq_along(element), function(i) {
+      el <- element[[i]]
       if (inherits(el, "shiny.tag") || inherits(el, "shiny.tag.list")) {
+        # if last element, add .last-child class
+        if (i == length(element)) {
+          class <- "gsapy last-child"
+        } else {
+          class <- "gsapy"
+        }
+
         htmltools::tagAppendAttributes(el,
-                                       class = "gsapy",
+                                       class = class,
                                        `data-gsapy-id` = id,
                                        `data-gsapy-animation` = animation,
                                        `data-gsapy-level` = "child")
       }
     })
+
+    # Wrap the elements in a div with class gsapy-wrapper and gsapy-content
+    # This is useful for e.g. ScrollSmoother
+    element <- htmltools::tagList(
+      htmltools::div(
+        class = "gsapy-wrapper",
+        id = paste0("gsapy-wrapper-", digest::digest(element)),
+        htmltools::div(
+          class = "gsapy-content",
+          id = paste0("gsapy-content-", digest::digest(element)),
+          htmltools::div(
+            class = "gsapy-animations",
+            id = paste0("gsapy-animations-", digest::digest(element)),
+            element
+          )
+        )
+      )
+    )
 
 
   } else {
@@ -109,7 +135,7 @@ withGsapy <- function(element, id = NULL,
 #'
 updateGsapy <- function(id, animation, session = shiny::getDefaultReactiveDomain()) {
 
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "accordion", "slideIn"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn"))
 
   # send message to JavaScript with the id
   session$sendCustomMessage("update-gsapy", list(id = id,

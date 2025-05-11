@@ -1,8 +1,16 @@
 import { gsap, ScrollTrigger } from './init.js';
 
+// Init
+let tl = null;
+
 // Utils
 // function to make sure any previous animations are killed before applying a new one
 function killAnimations(animationClass) {
+
+    if (tl) {
+      tl.kill(true);
+    }
+
     gsap.utils.toArray('.' + animationClass).forEach((el) => {
       // Kill any existing tweens on this element
       gsap.killTweensOf(el);
@@ -10,7 +18,7 @@ function killAnimations(animationClass) {
       // Kill any ScrollTrigger instances attached to this element
       ScrollTrigger.getAll().forEach(trigger => {
           if (trigger.trigger === el) {
-              trigger.kill();
+              trigger.kill(true);
           }
       });
 
@@ -19,10 +27,23 @@ function killAnimations(animationClass) {
   });
 }
 
+// function that checks if given class is found, returns warning when not
+function checkClassExists(className) {
+  const elements = gsap.utils.toArray('.' + className);
+  if (!elements.length) {
+    console.warn(`No elements found for class: ${className}`);
+    return false;
+  }
+  return true;
+}
+
 // 1. fadeIn animation
 // This animation fades in elements on scroll down, and fades out on scroll up
-
 function fadeIn(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
 
   // kill any previous animations
   killAnimations(animationClass);
@@ -62,8 +83,11 @@ function fadeIn(animationClass) {
 
 // 2. zoomIn animation
 // This animation zooms in elements on scroll down, and zooms out on scroll up
-
 function zoomIn(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
 
   // kill any previous animations
   killAnimations(animationClass);
@@ -103,6 +127,11 @@ function zoomIn(animationClass) {
 
 // 3. slideIn animation
 function slideIn(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
   // Kill any previous animations
   killAnimations(animationClass);
 
@@ -138,28 +167,33 @@ function slideIn(animationClass) {
 
 }
 
-// 4. accordion animation
-// Display elements as accordion
+// 4. stack animation
+// Display elements as stack
+function stack(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
 
-function accordion(animationClass) {
-  // Kill any previous animations
+  // Kill previous animations
   killAnimations(animationClass);
 
-  gsap.utils.toArray('.' + animationClass).forEach((el, i) => {
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        pin: true,
-        scrub: true,
-        pinSpacing: false,
-        ease: 'linear'
-      },
-      overwrite: true,
-      duration: 1,
-      delay: 0.5
-    });
+  tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.gsapy-animations',
+      pin: '.gsapy-wrapper',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1,
+      ease: 'none'
+    }
+  }).to('.' + animationClass, {
+    height: 0,
+    paddingBottom: 0,
+    opacity: 0,
+    stagger: 0.5
   });
 }
 
 // export functions
-export { fadeIn, zoomIn, accordion, slideIn };
+export { fadeIn, zoomIn, stack, slideIn };
