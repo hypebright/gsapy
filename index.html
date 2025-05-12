@@ -70,6 +70,12 @@
 </h1>
 <p>With <code>gsapy</code> you can bring GSAP animations to your Shiny elements without any JavaScript knowledge. The aim is to provide an R interface for common and simple GSAP animations. Currently we support the following animations:</p>
 <table class="table">
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+</colgroup>
 <thead><tr class="header">
 <th>Animation</th>
 <th>Trigger</th>
@@ -81,25 +87,43 @@
 <td><code>fadeIn</code></td>
 <td>Scroll down/up</td>
 <td>ScrollTrigger</td>
-<td>Fade in/out</td>
+<td>Fade in/out elements</td>
 </tr>
 <tr class="even">
 <td><code>zoomIn</code></td>
 <td>Scroll down/up</td>
 <td>ScrollTrigger</td>
-<td>Zoom in/out</td>
+<td>Zoom in/out elements</td>
 </tr>
 <tr class="odd">
 <td><code>slideIn</code></td>
 <td>Scroll down/up</td>
 <td>ScrollTrigger</td>
-<td>Slide in/out</td>
+<td>Slide in/out elements</td>
 </tr>
 <tr class="even">
 <td><code>stack</code></td>
 <td>Scroll down/up</td>
 <td>ScrollTrigger</td>
 <td>Stack elements</td>
+</tr>
+<tr class="odd">
+<td><code>waveText</code></td>
+<td>Page load or event</td>
+<td>SplitText</td>
+<td>Reveal text with wave effect</td>
+</tr>
+<tr class="even">
+<td><code>fadeInText</code></td>
+<td>Page load or event</td>
+<td>SplitText</td>
+<td>Fade in text</td>
+</tr>
+<tr class="odd">
+<td><code>flipInText</code></td>
+<td>Page load or event</td>
+<td>SplitText</td>
+<td>Flip in text by rotation</td>
 </tr>
 </tbody>
 </table>
@@ -173,6 +197,50 @@
 <span></span>
 <span><span class="fu">shinyApp</span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p>In the above examples we work with plain divs, but you can also apply animations to other elements like <code>card</code> from <code>blisb</code>. A complete demo can be found in <code>inst/examples/01-gsapy-scrolltrigger-cards.R</code>.</p>
+<p>Besides animating divs, you can also animate text. For example, you can use the <code>waveText</code> animation to create a wave effect on the text. Here’s an example of how to use those text animations:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/" class="external-link">bslib</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hypebright.github.io/gsapy/">gsapy</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/bslib/reference/page_fillable.html" class="external-link">page_fillable</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="st">"GSAP text adventures"</span>,</span>
+<span>  <span class="co"># animation options</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/bslib/reference/layout_column_wrap.html" class="external-link">layout_column_wrap</a></span><span class="op">(</span></span>
+<span>    width <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>,</span>
+<span>    max_height <span class="op">=</span> <span class="st">"50px"</span>,</span>
+<span>    <span class="fu">selectInput</span><span class="op">(</span><span class="st">"animation"</span>, <span class="st">"Choose animation"</span>,</span>
+<span>                choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"waveText"</span>, <span class="st">"fadeInText"</span>, <span class="st">"flipInText"</span><span class="op">)</span>,</span>
+<span>                selected <span class="op">=</span> <span class="st">"waveText"</span><span class="op">)</span>,</span>
+<span>    <span class="fu">tagAppendAttributes</span><span class="op">(</span></span>
+<span>      style <span class="op">=</span> <span class="st">"margin-top: 25px"</span>,</span>
+<span>      <span class="fu">actionButton</span><span class="op">(</span><span class="st">"run_again"</span>, <span class="st">"Run again"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/withGsapy.html">withGsapy</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="st">"paragraphs"</span>,</span>
+<span>    animation <span class="op">=</span> <span class="st">"waveText"</span>,</span>
+<span>    <span class="co"># random text paragraph with heading</span></span>
+<span>    <span class="fu">div</span><span class="op">(</span></span>
+<span>      <span class="fu">h2</span><span class="op">(</span><span class="st">"Paragraph 1"</span><span class="op">)</span>,</span>
+<span>      <span class="fu">p</span><span class="op">(</span><span class="st">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></span>
+<span><span class="st">        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></span>
+<span><span class="st">        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span></span>
+<span><span class="st">        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu">p</span><span class="op">(</span><span class="st">"Other content"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="fu">observe</span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="reference/updateGsapy.html">updateGsapy</a></span><span class="op">(</span><span class="st">"paragraphs"</span>, <span class="va">input</span><span class="op">$</span><span class="va">animation</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">bindEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">run_again</span>, ignoreInit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">shinyApp</span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a>

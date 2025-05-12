@@ -62,6 +62,11 @@ target the element in custom JavaScript code.</p></dd>
 fade out elements that disappear from the viewport.</p></li>
 <li><p>"zoomIn": Zoom in (scale) elements that appear in the viewport on scroll,
 and zoom out elements that disappear from the viewport.</p></li>
+<li><p>"stack": Stack elements when they disappear from the viewport.</p></li>
+<li><p>"slideIn": Slide in elements that appear in the viewport on scroll,
+and slide out elements that disappear from the viewport.</p></li>
+<li><p>"waveText": Reveal characters with a wave effect.</p></li>
+<li><p>"fadeInText": Fade in text by words.</p></li>
 </ul></dd>
 
 
@@ -74,6 +79,51 @@ and zoom out elements that disappear from the viewport.</p></li>
 
 </dl></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in library(shiny):</span> there is no package called ‘shiny’</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/bslib/" class="external-link">bslib</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘bslib’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:utils’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     page</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hypebright.github.io/gsapy/">gsapy</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/bslib/reference/page_fillable.html" class="external-link">page_fillable</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  title <span class="op">=</span> <span class="st">"GSAP scroll adventures"</span>,</span></span>
+<span class="r-in"><span>  <span class="co"># animation options</span></span></span>
+<span class="r-in"><span>  <span class="fu">selectInput</span><span class="op">(</span><span class="st">"animation"</span>, <span class="st">"Choose animation"</span>,</span></span>
+<span class="r-in"><span>              choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fadeIn"</span>, <span class="st">"zoomIn"</span>, <span class="st">"stack"</span>, <span class="st">"slideIn"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>              selected <span class="op">=</span> <span class="st">"fadeIn"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">withGsapy</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="st">"divs"</span>,</span></span>
+<span class="r-in"><span>    animation <span class="op">=</span> <span class="st">"fadeIn"</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="co"># simple div with header and random image</span></span></span>
+<span class="r-in"><span>      <span class="fu">div</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu">h3</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Beatiful image "</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu">img</span><span class="op">(</span>src <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://picsum.photos/600/300?random="</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">p</span><span class="op">(</span><span class="st">"Other content"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘shiny’</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">observe</span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="updateGsapy.html">updateGsapy</a></span><span class="op">(</span><span class="st">"divs"</span>, <span class="va">input</span><span class="op">$</span><span class="va">animation</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">bindEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">animation</span>, ignoreInit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">shinyApp</span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in shinyApp(ui, server):</span> could not find function "shinyApp"</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
