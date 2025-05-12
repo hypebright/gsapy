@@ -1,4 +1,4 @@
-import { fadeIn, zoomIn, stack, slideIn } from './animations.js'
+import { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText } from './animations.js'
 
 $(document).ready(function() {
 
@@ -25,6 +25,18 @@ $(document).ready(function() {
 
     if (animation === 'slideIn') {
       slideIn(animationClass);
+    }
+
+    if (animation === 'waveText') {
+      waveText(animationClass);
+    }
+
+    if (animation === 'fadeInText') {
+      fadeInText(animationClass);
+    }
+
+    if (animation === 'flipInText') {
+      flipInText(animationClass);
     }
 
   });
@@ -66,6 +78,18 @@ $(document).ready(function() {
 
     if (message.animation === 'slideIn') {
       slideIn(animationClass);
+    }
+
+    if (message.animation === 'waveText') {
+      waveText(animationClass);
+    }
+
+    if (message.animation === 'fadeInText') {
+      fadeInText(animationClass);
+    }
+
+    if (message.animation === 'flipInText') {
+      flipInText(animationClass);
     }
 
   });

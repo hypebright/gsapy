@@ -27,10 +27,13 @@ With `gsapy` you can bring GSAP animations to your Shiny elements without any Ja
 
 | Animation | Trigger | Plugin | Description |
 | --- | --- | --- | --- |
-| `fadeIn` | Scroll down/up | ScrollTrigger | Fade in/out |
-| `zoomIn` | Scroll down/up | ScrollTrigger | Zoom in/out |
-| `slideIn` | Scroll down/up | ScrollTrigger | Slide in/out |
+| `fadeIn` | Scroll down/up | ScrollTrigger | Fade in/out elements |
+| `zoomIn` | Scroll down/up | ScrollTrigger | Zoom in/out elements |
+| `slideIn` | Scroll down/up | ScrollTrigger | Slide in/out elements |
 | `stack` | Scroll down/up | ScrollTrigger | Stack elements |
+| `waveText` | Page load or event | SplitText | Reveal text with wave effect |
+| `fadeInText` | Page load or event | SplitText | Fade in text |
+| `flipInText` | Page load or event | SplitText | Flip in text by rotation |
 
 What can you expect in the future?
 
@@ -106,6 +109,54 @@ shinyApp(ui, server)
 ```
 
 In the above examples we work with plain divs, but you can also apply animations to other elements like `card` from `blisb`. A complete demo can be found in `inst/examples/01-gsapy-scrolltrigger-cards.R`.
+
+Besides animating divs, you can also animate text. For example, you can use the `waveText` animation to create a wave effect on the text. Here's an example of how to use those text animations:
+
+```r
+library(shiny)
+library(bslib)
+library(gsapy)
+
+ui <- page_fillable(
+  title = "GSAP text adventures",
+  # animation options
+  layout_column_wrap(
+    width = 1/2,
+    max_height = "50px",
+    selectInput("animation", "Choose animation",
+                choices = c("waveText", "fadeInText", "flipInText"),
+                selected = "waveText"),
+    tagAppendAttributes(
+      style = "margin-top: 25px",
+      actionButton("run_again", "Run again")
+    )
+  ),
+  withGsapy(
+    id = "paragraphs",
+    animation = "waveText",
+    # random text paragraph with heading
+    div(
+      h2("Paragraph 1"),
+      p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+    ),
+  ),
+  p("Other content")
+)
+
+server <- function(input, output, session) {
+
+  observe({
+    updateGsapy("paragraphs", input$animation)
+  }) |> bindEvent(input$run_again, ignoreInit = TRUE)
+
+}
+
+shinyApp(ui, server)
+```
+
 
 # Licensing
 This R package provides an R interface to [GSAP (GreenSock Animation Platform)](https://github.com/greensock/GSAP). The package itself is licensed under the MIT License, meaning you are free to use, modify, and distribute it under permissive terms.

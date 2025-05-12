@@ -19,6 +19,11 @@ target the element in custom JavaScript code.}
 fade out elements that disappear from the viewport.
 \item "zoomIn": Zoom in (scale) elements that appear in the viewport on scroll,
 and zoom out elements that disappear from the viewport.
+\item "stack": Stack elements when they disappear from the viewport.
+\item "slideIn": Slide in elements that appear in the viewport on scroll,
+and slide out elements that disappear from the viewport.
+\item "waveText": Reveal characters with a wave effect.
+\item "fadeInText": Fade in text by words.
 }}
 
 \item{loop}{Boolean indicating whether the animation should repeat or is a one-off}
@@ -28,4 +33,39 @@ and zoom out elements that disappear from the viewport.
 \description{
 Choose from a range of built-in animations or create your own custom animations
 with \href{https://greensock.com/gsap}{GSAP}.
+}
+\examples{
+library(shiny)
+library(bslib)
+library(gsapy)
+
+ui <- page_fillable(
+  title = "GSAP scroll adventures",
+  # animation options
+  selectInput("animation", "Choose animation",
+              choices = c("fadeIn", "zoomIn", "stack", "slideIn"),
+              selected = "fadeIn"),
+  withGsapy(
+    id = "divs",
+    animation = "fadeIn",
+    lapply(1:10, function(i) {
+      # simple div with header and random image
+      div(
+        h3(paste0("Beatiful image ", i)),
+        img(src = paste0("https://picsum.photos/600/300?random=", i))
+      )
+    })
+  ),
+  p("Other content")
+)
+
+server <- function(input, output, session) {
+
+  observe({
+    updateGsapy("divs", input$animation)
+  }) |> bindEvent(input$animation, ignoreInit = TRUE)
+
+}
+
+shinyApp(ui, server)
 }

@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from './init.js';
+import { gsap, ScrollTrigger, SplitText } from './init.js';
 
 // Init
 let tl = null;
@@ -195,5 +195,84 @@ function stack(animationClass) {
   });
 }
 
+// 5. Stagger text using splittext
+function waveText(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  SplitText.create('.' + animationClass, {
+    type: "words, chars",
+    onSplit(self) { // runs every time it splits
+      gsap.from(self.chars, {
+        duration: 0.5,
+        opacity: 0,
+        scale: 0,
+        y: 80,
+        rotationX: 150,
+        transformOrigin: "0% 50% -50",
+        ease: "back",
+        stagger: 0.01,
+      });
+    }
+  });
+
+}
+
+// 6. FadeIn text using splittext
+function fadeInText(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  SplitText.create('.' + animationClass, {
+    type: "words",
+    onSplit(self) { // runs every time it splits
+      gsap.from(self.words, {
+        opacity: 0,
+        duration: 2,
+        ease: "sine.out",
+        stagger: 0.01
+      });
+    }
+  });
+
+}
+
+// 7. Flipping characters into place with splittext
+// TODO: might need to add perspective to parent element
+function flipInText(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  SplitText.create('.' + animationClass, {
+    type: "words",
+    onSplit(self) { // runs every time it splits
+      gsap.from(self.words, {
+        opacity: 0,
+        rotationX: 120, // flipping effect
+        transformOrigin: "center center",
+        duration: 0.8,
+        stagger: 0.01,
+        ease: "back.out(1.7)" // computationally expensive?
+      });
+    }
+  });
+
+}
+
 // export functions
-export { fadeIn, zoomIn, stack, slideIn };
+export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText };
