@@ -9,8 +9,8 @@ ui <- page_fillable(
     width = 1/2,
     max_height = "50px",
     selectInput("animation", "Choose animation",
-                choices = c("staggerText", "fadeInText"),
-                selected = "staggerText"),
+                choices = c("waveText", "fadeInText"),
+                selected = "waveText"),
     tagAppendAttributes(
       style = "margin-top: 25px",
       actionButton("run_again", "Run again")
@@ -18,7 +18,7 @@ ui <- page_fillable(
   ),
   withGsapy(
     id = "paragraphs",
-    animation = "staggerText",
+    animation = "waveText",
     # random text paragraph with heading
     div(
       h2("Paragraph 1"),

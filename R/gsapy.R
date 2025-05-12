@@ -31,7 +31,7 @@ useGsapy <- function() {
 #' - "stack": Stack elements when they disappear from the viewport.
 #' - "slideIn": Slide in elements that appear in the viewport on scroll,
 #' and slide out elements that disappear from the viewport.
-#' - "staggerText": Stagger text by characters.
+#' - "waveText": Reveal characters with a wave effect.
 #' - "fadeInText": Fade in text by words.
 #' @param loop Boolean indicating whether the animation should repeat or is a one-off
 #' @param duration Duration of the animation in seconds
@@ -50,7 +50,7 @@ withGsapy <- function(element, id = NULL,
   # TODO: add custom animations
 
   # Check for allowed animations
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "staggerText", "fadeInText"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "waveText", "fadeInText"))
 
   # Attach special data attribute to element, containing an unique gsapy id
   # this id is being used to target the element on the JS side
@@ -140,7 +140,7 @@ withGsapy <- function(element, id = NULL,
 #'
 updateGsapy <- function(id, animation, session = shiny::getDefaultReactiveDomain()) {
 
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "staggerText", "fadeInText"))
+  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "waveText", "fadeInText"))
 
   # send message to JavaScript with the id
   session$sendCustomMessage("update-gsapy", list(id = id,

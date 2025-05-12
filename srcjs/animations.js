@@ -196,7 +196,7 @@ function stack(animationClass) {
 }
 
 // 5. Stagger text using splittext
-function staggerText(animationClass) {
+function waveText(animationClass) {
   // check for class
   if (!checkClassExists(animationClass)) {
     return;
@@ -248,4 +248,4 @@ function fadeInText(animationClass) {
 }
 
 // export functions
-export { fadeIn, zoomIn, stack, slideIn, staggerText, fadeInText };
+export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText };

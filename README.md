@@ -31,6 +31,8 @@ With `gsapy` you can bring GSAP animations to your Shiny elements without any Ja
 | `zoomIn` | Scroll down/up | ScrollTrigger | Zoom in/out |
 | `slideIn` | Scroll down/up | ScrollTrigger | Slide in/out |
 | `stack` | Scroll down/up | ScrollTrigger | Stack elements |
+| `waveText` | Page load or event | SplitText | Reveal text with wave effect |
+| `fadeInText` | Page load or event | SplitText | Fade in text |
 
 What can you expect in the future?
 

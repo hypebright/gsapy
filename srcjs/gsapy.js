@@ -1,4 +1,4 @@
-import { fadeIn, zoomIn, stack, slideIn, staggerText, fadeInText } from './animations.js'
+import { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText } from './animations.js'
 
 $(document).ready(function() {
 
@@ -27,8 +27,8 @@ $(document).ready(function() {
       slideIn(animationClass);
     }
 
-    if (animation === 'staggerText') {
-      staggerText(animationClass);
+    if (animation === 'waveText') {
+      waveText(animationClass);
     }
 
     if (animation === 'fadeInText') {
@@ -76,8 +76,8 @@ $(document).ready(function() {
       slideIn(animationClass);
     }
 
-    if (message.animation === 'staggerText') {
-      staggerText(animationClass);
+    if (message.animation === 'waveText') {
+      waveText(animationClass);
     }
 
     if (message.animation === 'fadeInText') {
