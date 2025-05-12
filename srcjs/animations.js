@@ -247,5 +247,32 @@ function fadeInText(animationClass) {
 
 }
 
+// 7. Flipping characters into place with splittext
+// TODO: might need to add perspective to parent element
+function flipInText(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  SplitText.create('.' + animationClass, {
+    type: "words",
+    onSplit(self) { // runs every time it splits
+      gsap.from(self.words, {
+        opacity: 0,
+        rotationX: 120, // flipping effect
+        transformOrigin: "center center",
+        duration: 0.8,
+        stagger: 0.01,
+        ease: "back.out(1.7)" // computationally expensive?
+      });
+    }
+  });
+
+}
+
 // export functions
-export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText };
+export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText };

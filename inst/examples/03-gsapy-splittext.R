@@ -9,7 +9,7 @@ ui <- page_fillable(
     width = 1/2,
     max_height = "50px",
     selectInput("animation", "Choose animation",
-                choices = c("waveText", "fadeInText"),
+                choices = c("waveText", "fadeInText", "flipInText"),
                 selected = "waveText"),
     tagAppendAttributes(
       style = "margin-top: 25px",
