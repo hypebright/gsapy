@@ -18,7 +18,7 @@ This package provides a simple and elegant way to integrate GSAP (GreenSock Anim
 You can install the development version of `gsapy` from GitHub with:
 
 ```r
-pak::pak("hypebright/gsapy")
+devtools::install_github("hypebright/gsapy")
 ```
 
 # Animations
