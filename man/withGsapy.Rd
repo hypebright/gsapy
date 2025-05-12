@@ -19,6 +19,11 @@ target the element in custom JavaScript code.}
 fade out elements that disappear from the viewport.
 \item "zoomIn": Zoom in (scale) elements that appear in the viewport on scroll,
 and zoom out elements that disappear from the viewport.
+\item "stack": Stack elements when they disappear from the viewport.
+\item "slideIn": Slide in elements that appear in the viewport on scroll,
+and slide out elements that disappear from the viewport.
+\item "staggerText": Stagger text by characters.
+\item "fadeInText": Fade in text by words.
 }}
 
 \item{loop}{Boolean indicating whether the animation should repeat or is a one-off}

@@ -221,8 +221,31 @@ function staggerText(animationClass) {
     }
   });
 
+}
+
+// 6. FadeIn text using splittext
+function fadeInText(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  SplitText.create('.' + animationClass, {
+    type: "words",
+    onSplit(self) { // runs every time it splits
+      gsap.from(self.words, {
+        opacity: 0,
+        duration: 2,
+        ease: "sine.out",
+        stagger: 0.01
+      });
+    }
+  });
 
 }
 
 // export functions
-export { fadeIn, zoomIn, stack, slideIn, staggerText };
+export { fadeIn, zoomIn, stack, slideIn, staggerText, fadeInText };
