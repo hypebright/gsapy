@@ -35,7 +35,7 @@ With `gsapy` you can bring GSAP animations to your Shiny elements without any Ja
 | `fadeInText` | Page load or event | SplitText | Fade in text |
 | `flipInText` | Page load or event | SplitText | Flip in text by rotation |
 
-![](http://hypebright.nl/wp-content/uploads/2025/05/gsapy-gif.gif)
+![](https://hypebright.nl/wp-content/uploads/2025/05/gsapy-gif.gif)
 
 What can you expect in the future?
 
