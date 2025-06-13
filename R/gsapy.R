@@ -5,13 +5,11 @@
 #' @export
 
 useGsapy <- function() {
-
   gsapyTag <- htmltools::withTags(
     htmltools::div(class = "gsapyDeps")
   )
 
   add_gsapy_deps(gsapyTag)
-
 }
 
 #' Add GSAP animation to given element(s)
@@ -43,16 +41,30 @@ useGsapy <- function() {
 #'
 #' @example inst/examples/02-gsapy-scrolltrigger-divs.R
 
-withGsapy <- function(element, id = NULL,
-                      animation = "fadeIn", loop = FALSE,
-                      duration = 1) {
-
+withGsapy <- function(
+  element,
+  id = NULL,
+  animation = "fadeIn",
+  loop = FALSE,
+  duration = 1
+) {
   # TODO: loop, duration args
   # TODO: options argument?
   # TODO: add custom animations
 
   # Check for allowed animations
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "waveText", "fadeInText", "flipInText"))
+  animation <- match.arg(
+    animation,
+    c(
+      "fadeIn",
+      "zoomIn",
+      "stack",
+      "slideIn",
+      "waveText",
+      "fadeInText",
+      "flipInText"
+    )
+  )
 
   # Attach special data attribute to element, containing an unique gsapy id
   # this id is being used to target the element on the JS side
@@ -61,7 +73,7 @@ withGsapy <- function(element, id = NULL,
   }
 
   # Does the element consist of multiple Shiny UI elements?
- if(all(sapply(element, inherits, "shiny.tag"))) {
+  if (all(sapply(element, inherits, "shiny.tag"))) {
     parent <- TRUE
   } else {
     parent <- FALSE
@@ -81,11 +93,13 @@ withGsapy <- function(element, id = NULL,
           class <- "gsapy"
         }
 
-        htmltools::tagAppendAttributes(el,
-                                       class = class,
-                                       `data-gsapy-id` = id,
-                                       `data-gsapy-animation` = animation,
-                                       `data-gsapy-level` = "child")
+        htmltools::tagAppendAttributes(
+          el,
+          class = class,
+          `data-gsapy-id` = id,
+          `data-gsapy-animation` = animation,
+          `data-gsapy-level` = "child"
+        )
       }
     })
 
@@ -106,15 +120,15 @@ withGsapy <- function(element, id = NULL,
         )
       )
     )
-
-
   } else {
     # If single element, add unique id to element
-    element <- htmltools::tagAppendAttributes(element,
-                                              class = "gsapy",
-                                              `data-gsapy-id` = id,
-                                              `data-gsapy-animation` = animation,
-                                              `data-gsapy-level` = "parent")
+    element <- htmltools::tagAppendAttributes(
+      element,
+      class = "gsapy",
+      `data-gsapy-id` = id,
+      `data-gsapy-animation` = animation,
+      `data-gsapy-level` = "parent"
+    )
   }
 
   # Return element with new attributes, and attach dependencies
@@ -123,7 +137,6 @@ withGsapy <- function(element, id = NULL,
       element
     )
   )
-
 }
 
 #' Update GSAP animation
@@ -145,11 +158,27 @@ withGsapy <- function(element, id = NULL,
 #'
 #' @export
 #'
-updateGsapy <- function(id, animation, session = shiny::getDefaultReactiveDomain()) {
-
-  animation <- match.arg(animation, c("fadeIn", "zoomIn", "stack", "slideIn", "waveText", "fadeInText", "flipInText"))
+updateGsapy <- function(
+  id,
+  animation,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  animation <- match.arg(
+    animation,
+    c(
+      "fadeIn",
+      "zoomIn",
+      "stack",
+      "slideIn",
+      "waveText",
+      "fadeInText",
+      "flipInText"
+    )
+  )
 
   # send message to JavaScript with the id
-  session$sendCustomMessage("update-gsapy", list(id = id,
-                                                 animation = animation))
+  session$sendCustomMessage(
+    "update-gsapy",
+    list(id = id, animation = animation)
+  )
 }
