@@ -4,6 +4,28 @@ library(gsapy)
 
 ui <- page_fillable(
   title = "GSAP text adventures",
+
+  # Load Google Fonts (Poppins)
+  tags$head(
+    tags$link(
+      href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
+      rel = "stylesheet"
+    ),
+    tags$style(HTML("
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      h2 {
+        font-weight: 600;
+        font-size: 1.8em;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+    "))
+  ),
+
   # animation options
   layout_column_wrap(
     width = 1/2,
@@ -12,7 +34,7 @@ ui <- page_fillable(
                 choices = c("waveText", "fadeInText", "flipInText"),
                 selected = "waveText"),
     tagAppendAttributes(
-      style = "margin-top: 25px",
+      style = "margin-top: 31px",
       actionButton("run_again", "Run again")
     )
   ),
