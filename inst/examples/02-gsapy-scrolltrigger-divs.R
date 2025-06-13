@@ -11,7 +11,8 @@ ui <- page_fillable(
       href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap",
       rel = "stylesheet"
     ),
-    tags$style(HTML("
+    tags$style(HTML(
+      "
       body {
         font-family: 'Poppins', sans-serif;
       }
@@ -40,13 +41,17 @@ ui <- page_fillable(
         margin-bottom: 40px;
         text-align: center;
       }
-    "))
+    "
+    ))
   ),
 
   # animation options
-  selectInput("animation", "Choose animation",
-              choices = c("fadeIn", "zoomIn", "stack", "slideIn"),
-              selected = "fadeIn"),
+  selectInput(
+    "animation",
+    "Choose animation",
+    choices = c("fadeIn", "zoomIn", "stack", "slideIn"),
+    selected = "fadeIn"
+  ),
   withGsapy(
     id = "divs",
     animation = "fadeIn",
@@ -62,11 +67,10 @@ ui <- page_fillable(
 )
 
 server <- function(input, output, session) {
-
   observe({
     updateGsapy("divs", input$animation)
-  }) |> bindEvent(input$animation, ignoreInit = TRUE)
-
+  }) |>
+    bindEvent(input$animation, ignoreInit = TRUE)
 }
 
 shinyApp(ui, server)
