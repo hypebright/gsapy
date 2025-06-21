@@ -1,4 +1,4 @@
-import { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText } from './animations.js'
+import { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText, drawSVG } from './animations.js'
 
 $(document).ready(function() {
 
@@ -39,6 +39,9 @@ $(document).ready(function() {
       flipInText(animationClass);
     }
 
+    if (animation === 'drawSVG') {
+      drawSVG(animationClass);
+    }
   });
 
   // receive message from Shiny
@@ -90,6 +93,10 @@ $(document).ready(function() {
 
     if (message.animation === 'flipInText') {
       flipInText(animationClass);
+    }
+
+    if (message.animation === 'drawSVG') {
+      drawSVG(animationClass);
     }
 
   });

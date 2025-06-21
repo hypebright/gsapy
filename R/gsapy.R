@@ -31,6 +31,7 @@ useGsapy <- function() {
 #' and slide out elements that disappear from the viewport.
 #' - "waveText": Reveal characters with a wave effect.
 #' - "fadeInText": Fade in text by words.
+#' - "drawSVG": Draw SVG paths.
 #' @param loop Boolean indicating whether the animation should repeat or is a one-off
 #' @param duration Duration of the animation in seconds
 #'
@@ -62,7 +63,8 @@ withGsapy <- function(
       "slideIn",
       "waveText",
       "fadeInText",
-      "flipInText"
+      "flipInText",
+      "drawSVG"
     )
   )
 
@@ -155,6 +157,7 @@ withGsapy <- function(
 #' and slide out elements that disappear from the viewport.
 #' - "waveText": Reveal characters with a wave effect.
 #' - "fadeInText": Fade in text by words.
+#' - "drawSVG": Draw SVG paths.
 #'
 #' @export
 #'
@@ -172,7 +175,8 @@ updateGsapy <- function(
       "slideIn",
       "waveText",
       "fadeInText",
-      "flipInText"
+      "flipInText",
+      "drawSVG"
     )
   )
 

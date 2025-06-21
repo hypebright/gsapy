@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger, SplitText } from './init.js';
+import { gsap, ScrollTrigger, SplitText, DrawSVGPlugin } from './init.js';
 
 // Init
 let tl = null;
@@ -274,5 +274,59 @@ function flipInText(animationClass) {
 
 }
 
+// 8. Draw SVG animation
+// This animation adds stroke to SVG elements when there isn't, so it can be drawn
+// If there's any fill, this will be animated as well
+function drawSVG(animationClass) {
+  // check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // kill any previous animations
+  killAnimations(animationClass);
+
+  // Shape selectors
+  const shapes = "." + animationClass + " ellipse, " + animationClass + " circle";
+
+  // Path selectors
+  const svgPath = "." + animationClass + " path";
+
+  document.querySelectorAll(svgPath).forEach((path) => {
+    const fill = path.getAttribute("fill") || "#000"; // fallback if fill is missing
+    console.log(fill)
+    path.setAttribute("stroke", fill);
+    path.setAttribute("stroke-width", 3);
+  });
+
+  // Set all paths to invisible initially
+  gsap.set(svgPath, { drawSVG: "0%", fillOpacity: 0 });
+
+  // Animate all paths to full length
+  gsap.to(svgPath, {
+    duration: 3,
+    drawSVG: "100%",
+    stagger: 0.2,
+    ease: "power1.inOut"
+  });
+
+  // Fade in the fill after stroke is drawn
+  gsap.to(svgPath, {
+    fillOpacity: 1,
+    delay: 3.5,
+    duration: 0.5
+  });
+
+  gsap.set(shapes, { opacity: 0 });
+
+  gsap.to(shapes, {
+    opacity: 1,
+    delay: 3.5,
+    duration: 0.5
+  });
+
+
+}
+
 // export functions
-export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText };
+export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText, drawSVG };
