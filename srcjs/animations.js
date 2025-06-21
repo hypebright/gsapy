@@ -287,16 +287,25 @@ function drawSVG(animationClass) {
   killAnimations(animationClass);
 
   // Shape selectors
-  const shapes = "." + animationClass + " ellipse, " + animationClass + " circle";
+  const shapes = "." + animationClass + " ellipse, " + "." + animationClass + " circle";
 
   // Path selectors
   const svgPath = "." + animationClass + " path";
 
-  document.querySelectorAll(svgPath).forEach((path) => {
-    const fill = path.getAttribute("fill") || "#000"; // fallback if fill is missing
-    console.log(fill)
-    path.setAttribute("stroke", fill);
-    path.setAttribute("stroke-width", 3);
+  document.querySelectorAll("svg path").forEach((path) => {
+    // Try direct attribute first
+    let fill = path.getAttribute("fill");
+
+    // If not set, try to extract from style attribute
+    if (!fill) {
+      const styleAttr = path.getAttribute("style");
+      const match = /fill:\s*([^;]+)/.exec(styleAttr);
+      fill = match ? match[1] : "#000"; // fallback
+    }
+
+    console.log(fill);
+    path.setAttribute("stroke", path.getAttribute("stroke") || fill);
+    path.setAttribute("stroke-width", 5);
   });
 
   // Set all paths to invisible initially
