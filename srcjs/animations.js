@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger, SplitText, DrawSVGPlugin } from './init.js';
+import { gsap, ScrollTrigger, SplitText, DrawSVGPlugin, GSDevTools } from './init.js';
 
 // Init
 let tl = null;
@@ -278,63 +278,70 @@ function flipInText(animationClass) {
 // This animation adds stroke to SVG elements when there isn't, so it can be drawn
 // If there's any fill, this will be animated as well
 function drawSVG(animationClass) {
-  // check for class
+  // Check for class
   if (!checkClassExists(animationClass)) {
     return;
   }
 
-  // kill any previous animations
+  // Kill previous animations
   killAnimations(animationClass);
 
-  // Shape selectors
-  const shapes = "." + animationClass + " ellipse, " + "." + animationClass + " circle";
+  // Get all matching SVGs
+  const svgs = document.querySelectorAll("svg." + animationClass);
 
-  // Path selectors
-  const svgPath = "." + animationClass + " path";
+  svgs.forEach((svg) => {
+    // Select paths and shapes within this SVG only
+    const paths = svg.querySelectorAll("path");
+    const shapes = svg.querySelectorAll("circle, ellipse");
 
-  document.querySelectorAll("svg path").forEach((path) => {
-    // Try direct attribute first
-    let fill = path.getAttribute("fill");
+    // Set stroke and stroke-width
+    paths.forEach((path) => {
+      let fill = path.getAttribute("fill");
 
-    // If not set, try to extract from style attribute
-    if (!fill) {
-      const styleAttr = path.getAttribute("style");
-      const match = /fill:\s*([^;]+)/.exec(styleAttr);
-      fill = match ? match[1] : "#000"; // fallback
-    }
+      if (!fill) {
+        const styleAttr = path.getAttribute("style");
+        const match = /fill:\s*([^;]+)/.exec(styleAttr);
+        fill = match ? match[1] : "#000"; // fallback
+      }
 
-    console.log(fill);
-    path.setAttribute("stroke", path.getAttribute("stroke") || fill);
-    path.setAttribute("stroke-width", 5);
+      // if there's no stroke, set it to the fill color
+      path.setAttribute("stroke", path.getAttribute("stroke") || fill);
+
+      // if there's a stroke-width, use that, otherwise default to 5
+      path.setAttribute("stroke-width", path.getAttribute("stroke-width") || "5");
+    });
+
+    // Set initial state
+    gsap.set(paths, { drawSVG: "0%", fillOpacity: 0 });
+    gsap.set(shapes, { opacity: 0, fillOpacity: 0 });
+
+    // Create a timeline for each SVG to keep it coordinated
+    let tl = gsap.timeline();
+
+    // calculate duration based on the number of paths
+    const duration = Math.max(1, paths.length * 0.2); // minimum 1 second
+
+    tl.to(paths, {
+      duration: duration,
+      drawSVG: "100%",
+      stagger: 0.2,
+      ease: "power1.inOut"
+    })
+    .to(shapes, {
+      opacity: 1,
+      fillOpacity: 1,
+      duration: 0.5
+    })
+    .to(paths, {
+      fillOpacity: 1,
+      duration: 0.5
+    }, "<+0.5"); // overlap 0.5 seconds
+
+    // Debugging timelines
+    // link it to this specific timeline:
+    // GSDevTools.create({animation: tl});
+
   });
-
-  // Set all paths to invisible initially
-  gsap.set(svgPath, { drawSVG: "0%", fillOpacity: 0 });
-
-  // Animate all paths to full length
-  gsap.to(svgPath, {
-    duration: 3,
-    drawSVG: "100%",
-    stagger: 0.2,
-    ease: "power1.inOut"
-  });
-
-  // Fade in the fill after stroke is drawn
-  gsap.to(svgPath, {
-    fillOpacity: 1,
-    delay: 3.5,
-    duration: 0.5
-  });
-
-  gsap.set(shapes, { opacity: 0 });
-
-  gsap.to(shapes, {
-    opacity: 1,
-    delay: 3.5,
-    duration: 0.5
-  });
-
-
 }
 
 // export functions
