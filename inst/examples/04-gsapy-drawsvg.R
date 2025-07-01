@@ -308,12 +308,22 @@ ui <- page_fillable(
       )
     )
   ),
-  # shiny logo from file
+  # shiny logo from URL
   withGsapy(
     id = "shiny",
     animation = "drawSVG",
     tags$img(
       src = "https://raw.githubusercontent.com/rstudio/hex-stickers/0d7338a2c1da69d79f69c88afcc9bb0534f08a5d/SVG/shiny.svg",
+      width = "100px"
+    )
+  ),
+  # httr2 logo from file
+  # note: changes to SVG were made due to clashing classes (shiny and httr2 logos both had class "st1" etc)
+  withGsapy(
+    id = "httr2",
+    animation = "drawSVG",
+    tags$img(
+      src = "httr2.svg",
       width = "100px"
     )
   ),

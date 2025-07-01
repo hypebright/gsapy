@@ -31,7 +31,7 @@ useGsapy <- function() {
 #' and slide out elements that disappear from the viewport.
 #' - "waveText": Reveal characters with a wave effect.
 #' - "fadeInText": Fade in text by words.
-#' - "drawSVG": Draw SVG paths.
+#' - "drawSVG": Draw SVG paths. SVGs can be provided as `svg` tags or as `img` tags with a valid URL or path in the `src` attribute.
 #' @param loop Boolean indicating whether the animation should repeat or is a one-off
 #' @param duration Duration of the animation in seconds
 #'
@@ -141,12 +141,26 @@ withGsapy <- function(
   ) {
     # Fetch the image content
     img_src <- element$attribs$src
+
     if (!is.null(img_src)) {
-      # Check if src is https, issue warning otherwise
       if (!grepl("^https?://", img_src)) {
-        warning(
-          "The src attribute of the img tag should be a valid URL starting with http:// or https://. ",
-          "Using relative paths may not work as expected."
+        if (grepl("^/", img_src) || grepl("^\\\\", img_src)) {
+          # Absolute path, do nothing
+        } else if (grepl("^~", img_src)) {
+          # Relative path from home directory
+          img_src <- file.path(Sys.getenv("HOME"), img_src)
+        } else {
+          # Relative path from current working directory
+          img_src <- file.path(getwd(), "www", img_src)
+        }
+      }
+
+      # Check if path exist
+      if (!file.exists(img_src) && !grepl("^https?://", img_src)) {
+        stop(
+          "The src attribute of the img tag should be a valid URL starting with http:// or https://, ",
+          "or a valid local file path. The provided path does not exist: ",
+          img_src
         )
       }
 
