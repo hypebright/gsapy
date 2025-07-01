@@ -286,10 +286,26 @@ function drawSVG(animationClass) {
   // Kill previous animations
   killAnimations(animationClass);
 
+  // check if there are any image tags
+  const images = document.querySelectorAll("img." + animationClass);
+  if (images.length > 0) {
+    images.forEach((img) => {
+      console.warn(`Image with class "${animationClass}" found: ${img.src}. This animation is intended for SVG elements only.`);
+    });
+  }
+
   // Get all matching SVGs
   const svgs = document.querySelectorAll("svg." + animationClass);
 
-  svgs.forEach((svg) => {
+  // add any divs with animationClass that contain an svg as well
+  const divs = document.querySelectorAll("div." + animationClass + " svg");
+
+  // add both in one array
+  const allSvgs = [...svgs, ...divs];
+
+ //TODO: this runs for every single element but gathers previous elements as well: double work
+
+  allSvgs.forEach((svg) => {
     // Select paths and shapes within this SVG only
     const paths = svg.querySelectorAll("path");
     const shapes = svg.querySelectorAll("circle, ellipse");
@@ -297,11 +313,13 @@ function drawSVG(animationClass) {
     // Set stroke and stroke-width
     paths.forEach((path) => {
       let fill = path.getAttribute("fill");
+      let fallback = false
 
       if (!fill) {
         const styleAttr = path.getAttribute("style");
         const match = /fill:\s*([^;]+)/.exec(styleAttr);
         fill = match ? match[1] : "#000"; // fallback
+        fallback = match ? false : true; // if no fill was found, set fallback to true
       }
 
       // if there's no stroke, set it to the fill color
@@ -309,6 +327,9 @@ function drawSVG(animationClass) {
 
       // if there's a stroke-width, use that, otherwise default to 5
       path.setAttribute("stroke-width", path.getAttribute("stroke-width") || "5");
+
+      // store fallback value
+      path.setAttribute("data-fallback", fallback);
     });
 
     // Set initial state
@@ -335,7 +356,16 @@ function drawSVG(animationClass) {
     .to(paths, {
       fillOpacity: 1,
       duration: 0.5
-    }, "<+0.5"); // overlap 0.5 seconds
+      // TODO: doesn't work great yet
+      // if fallback was used, remove stroke
+      // onComplete: () => {
+      //   paths.forEach((path) => {
+      //     if (path.getAttribute("data-fallback") === "true") {
+      //       path.removeAttribute("stroke");
+      //     }
+      //   });
+      // }
+    }, "<+1"); // overlap 1 second
 
     // Debugging timelines
     // link it to this specific timeline:

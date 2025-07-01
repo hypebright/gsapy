@@ -308,6 +308,15 @@ ui <- page_fillable(
       )
     )
   ),
+  # shiny logo from file
+  withGsapy(
+    id = "shiny",
+    animation = "drawSVG",
+    tags$img(
+      src = "https://raw.githubusercontent.com/rstudio/hex-stickers/0d7338a2c1da69d79f69c88afcc9bb0534f08a5d/SVG/shiny.svg",
+      width = "100px"
+    )
+  ),
   p("Other content")
 )
 

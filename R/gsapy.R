@@ -133,6 +133,63 @@ withGsapy <- function(
     )
   }
 
+  # If animation is drawSVG and if it is being called upon an img tag, fetch the content and make it an svg tag instead
+  if (
+    animation == "drawSVG" &
+      inherits(element, "shiny.tag") &&
+      element$name == "img"
+  ) {
+    # Fetch the image content
+    img_src <- element$attribs$src
+    if (!is.null(img_src)) {
+      # Check if src is https, issue warning otherwise
+      if (!grepl("^https?://", img_src)) {
+        warning(
+          "The src attribute of the img tag should be a valid URL starting with http:// or https://. ",
+          "Using relative paths may not work as expected."
+        )
+      }
+
+      # Extract height/width information from image tag (if available)
+      height <- if (!is.null(element$attribs$height)) {
+        element$attribs$height
+      } else {
+        "auto"
+      }
+
+      width <- if (!is.null(element$attribs$width)) {
+        element$attribs$width
+      } else {
+        "auto"
+      }
+
+      # Read the image file and convert it to an SVG tag
+      svg_content <- readLines(img_src)
+
+      # Add width and height to the svg_content after <svg
+      # This assumes the SVG content has a <svg> tag at the start
+      if (!is.null(height) && !is.null(width)) {
+        svg_content <- gsub(
+          "<svg",
+          paste0('<svg width="', width, '" height="', height, '"'),
+          svg_content
+        )
+      }
+
+      # Convert the content to HTML
+      svg_element <- htmltools::HTML(svg_content)
+
+      # Wrap in div and make sure it has the correct classes
+      element <- htmltools::div(
+        class = "gsapy gsapy-drawSVG",
+        `data-gsapy-id` = id,
+        `data-gsapy-animation` = animation,
+        `data-gsapy-level` = "parent",
+        svg_element
+      )
+    }
+  }
+
   # Return element with new attributes, and attach dependencies
   return(
     add_gsapy_deps(
