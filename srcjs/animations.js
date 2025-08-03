@@ -277,7 +277,7 @@ function flipInText(animationClass) {
 // 8. Draw SVG animation
 // This animation adds stroke to SVG elements when there isn't, so it can be drawn
 // If there's any fill, this will be animated as well
-function drawSVG(animationClass) {
+function drawSVG(animationClass, reset = false) {
   // Check for class
   if (!checkClassExists(animationClass)) {
     return;
@@ -304,8 +304,19 @@ function drawSVG(animationClass) {
   const allSvgs = [...svgs, ...divs];
 
  //TODO: this runs for every single element but gathers previous elements as well: double work
-
   allSvgs.forEach((svg) => {
+
+    // TODO: bit clumsy, but this allows the updateGsapy function to work properly
+    // if reset is true, remove data-processed attribute
+    if (reset) {
+      svg.removeAttribute("data-processed");
+    }
+
+    // check if this svg is already processed
+    if (svg.getAttribute("data-processed") === "true") {
+      return;
+    }
+
     // Select paths and shapes within this SVG only
     const paths = svg.querySelectorAll("path");
     const shapes = svg.querySelectorAll("circle, ellipse");
@@ -315,7 +326,7 @@ function drawSVG(animationClass) {
       let fill = path.getAttribute("fill");
       let fallback = false
 
-      if (!fill) {
+      if (!fill && !path.getAttribute("stroke")) {
         const styleAttr = path.getAttribute("style");
         const match = /fill:\s*([^;]+)/.exec(styleAttr);
         fill = match ? match[1] : "#000"; // fallback
@@ -355,21 +366,23 @@ function drawSVG(animationClass) {
     })
     .to(paths, {
       fillOpacity: 1,
-      duration: 0.5
-      // TODO: doesn't work great yet
+      duration: 0.5,
       // if fallback was used, remove stroke
-      // onComplete: () => {
-      //   paths.forEach((path) => {
-      //     if (path.getAttribute("data-fallback") === "true") {
-      //       path.removeAttribute("stroke");
-      //     }
-      //   });
-      // }
+       onComplete: () => {
+         paths.forEach((path) => {
+           if (path.getAttribute("data-fallback") === "true") {
+             path.removeAttribute("stroke");
+           }
+         });
+       }
     }, "<+1"); // overlap 1 second
 
     // Debugging timelines
     // link it to this specific timeline:
     // GSDevTools.create({animation: tl});
+
+    // set SVG to processed (data attribute)
+    svg.setAttribute("data-processed", "true");
 
   });
 }

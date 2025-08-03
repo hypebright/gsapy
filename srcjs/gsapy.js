@@ -96,7 +96,7 @@ $(document).ready(function() {
     }
 
     if (message.animation === 'drawSVG') {
-      drawSVG(animationClass);
+      drawSVG(animationClass, true);
     }
 
   });
