@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger, SplitText } from './init.js';
+import { gsap, ScrollTrigger, SplitText, DrawSVGPlugin, GSDevTools } from './init.js';
 
 // Init
 let tl = null;
@@ -274,5 +274,118 @@ function flipInText(animationClass) {
 
 }
 
+// 8. Draw SVG animation
+// This animation adds stroke to SVG elements when there isn't, so it can be drawn
+// If there's any fill, this will be animated as well
+function drawSVG(animationClass, reset = false) {
+  // Check for class
+  if (!checkClassExists(animationClass)) {
+    return;
+  }
+
+  // Kill previous animations
+  killAnimations(animationClass);
+
+  // check if there are any image tags
+  const images = document.querySelectorAll("img." + animationClass);
+  if (images.length > 0) {
+    images.forEach((img) => {
+      console.warn(`Image with class "${animationClass}" found: ${img.src}. This animation is intended for SVG elements only.`);
+    });
+  }
+
+  // Get all matching SVGs
+  const svgs = document.querySelectorAll("svg." + animationClass);
+
+  // add any divs with animationClass that contain an svg as well
+  const divs = document.querySelectorAll("div." + animationClass + " svg");
+
+  // add both in one array
+  const allSvgs = [...svgs, ...divs];
+
+ //TODO: this runs for every single element but gathers previous elements as well: double work
+  allSvgs.forEach((svg) => {
+
+    // TODO: bit clumsy, but this allows the updateGsapy function to work properly
+    // if reset is true, remove data-processed attribute
+    if (reset) {
+      svg.removeAttribute("data-processed");
+    }
+
+    // check if this svg is already processed
+    if (svg.getAttribute("data-processed") === "true") {
+      return;
+    }
+
+    // Select paths and shapes within this SVG only
+    const paths = svg.querySelectorAll("path");
+    const shapes = svg.querySelectorAll("circle, ellipse");
+
+    // Set stroke and stroke-width
+    paths.forEach((path) => {
+      let fill = path.getAttribute("fill");
+      let fallback = false
+
+      if (!fill && !path.getAttribute("stroke")) {
+        const styleAttr = path.getAttribute("style");
+        const match = /fill:\s*([^;]+)/.exec(styleAttr);
+        fill = match ? match[1] : "#000"; // fallback
+        fallback = match ? false : true; // if no fill was found, set fallback to true
+      }
+
+      // if there's no stroke, set it to the fill color
+      path.setAttribute("stroke", path.getAttribute("stroke") || fill);
+
+      // if there's a stroke-width, use that, otherwise default to 5
+      path.setAttribute("stroke-width", path.getAttribute("stroke-width") || "5");
+
+      // store fallback value
+      path.setAttribute("data-fallback", fallback);
+    });
+
+    // Set initial state
+    gsap.set(paths, { drawSVG: "0%", fillOpacity: 0 });
+    gsap.set(shapes, { opacity: 0, fillOpacity: 0 });
+
+    // Create a timeline for each SVG to keep it coordinated
+    let tl = gsap.timeline();
+
+    // calculate duration based on the number of paths
+    const duration = Math.max(1, paths.length * 0.2); // minimum 1 second
+
+    tl.to(paths, {
+      duration: duration,
+      drawSVG: "100%",
+      stagger: 0.2,
+      ease: "power1.inOut"
+    })
+    .to(shapes, {
+      opacity: 1,
+      fillOpacity: 1,
+      duration: 0.5
+    })
+    .to(paths, {
+      fillOpacity: 1,
+      duration: 0.5,
+      // if fallback was used, remove stroke
+       onComplete: () => {
+         paths.forEach((path) => {
+           if (path.getAttribute("data-fallback") === "true") {
+             path.removeAttribute("stroke");
+           }
+         });
+       }
+    }, "<+1"); // overlap 1 second
+
+    // Debugging timelines
+    // link it to this specific timeline:
+    // GSDevTools.create({animation: tl});
+
+    // set SVG to processed (data attribute)
+    svg.setAttribute("data-processed", "true");
+
+  });
+}
+
 // export functions
-export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText };
+export { fadeIn, zoomIn, stack, slideIn, waveText, fadeInText, flipInText, drawSVG };

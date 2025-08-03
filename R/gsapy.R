@@ -31,6 +31,7 @@ useGsapy <- function() {
 #' and slide out elements that disappear from the viewport.
 #' - "waveText": Reveal characters with a wave effect.
 #' - "fadeInText": Fade in text by words.
+#' - "drawSVG": Draw SVG paths. SVGs can be provided as `svg` tags or as `img` tags with a valid URL or path in the `src` attribute.
 #' @param loop Boolean indicating whether the animation should repeat or is a one-off
 #' @param duration Duration of the animation in seconds
 #'
@@ -62,7 +63,8 @@ withGsapy <- function(
       "slideIn",
       "waveText",
       "fadeInText",
-      "flipInText"
+      "flipInText",
+      "drawSVG"
     )
   )
 
@@ -131,6 +133,77 @@ withGsapy <- function(
     )
   }
 
+  # If animation is drawSVG and if it is being called upon an img tag, fetch the content and make it an svg tag instead
+  if (
+    animation == "drawSVG" &
+      inherits(element, "shiny.tag") &&
+      element$name == "img"
+  ) {
+    # Fetch the image content
+    img_src <- element$attribs$src
+
+    if (!is.null(img_src)) {
+      if (!grepl("^https?://", img_src)) {
+        if (grepl("^/", img_src) || grepl("^\\\\", img_src)) {
+          # Absolute path, do nothing
+        } else if (grepl("^~", img_src)) {
+          # Relative path from home directory
+          img_src <- file.path(Sys.getenv("HOME"), img_src)
+        } else {
+          # Relative path from current working directory
+          img_src <- file.path(getwd(), "www", img_src)
+        }
+      }
+
+      # Check if path exist
+      if (!file.exists(img_src) && !grepl("^https?://", img_src)) {
+        stop(
+          "The src attribute of the img tag should be a valid URL starting with http:// or https://, ",
+          "or a valid local file path. The provided path does not exist: ",
+          img_src
+        )
+      }
+
+      # Extract height/width information from image tag (if available)
+      height <- if (!is.null(element$attribs$height)) {
+        element$attribs$height
+      } else {
+        "auto"
+      }
+
+      width <- if (!is.null(element$attribs$width)) {
+        element$attribs$width
+      } else {
+        "auto"
+      }
+
+      # Read the image file and convert it to an SVG tag
+      svg_content <- readLines(img_src)
+
+      # Add width and height to the svg_content after <svg
+      # This assumes the SVG content has a <svg> tag at the start
+      if (!is.null(height) && !is.null(width)) {
+        svg_content <- gsub(
+          "<svg",
+          paste0('<svg width="', width, '" height="', height, '"'),
+          svg_content
+        )
+      }
+
+      # Convert the content to HTML
+      svg_element <- htmltools::HTML(svg_content)
+
+      # Wrap in div and make sure it has the correct classes
+      element <- htmltools::div(
+        class = "gsapy gsapy-drawSVG",
+        `data-gsapy-id` = id,
+        `data-gsapy-animation` = animation,
+        `data-gsapy-level` = "parent",
+        svg_element
+      )
+    }
+  }
+
   # Return element with new attributes, and attach dependencies
   return(
     add_gsapy_deps(
@@ -155,6 +228,7 @@ withGsapy <- function(
 #' and slide out elements that disappear from the viewport.
 #' - "waveText": Reveal characters with a wave effect.
 #' - "fadeInText": Fade in text by words.
+#' - "drawSVG": Draw SVG paths.
 #'
 #' @export
 #'
@@ -172,7 +246,8 @@ updateGsapy <- function(
       "slideIn",
       "waveText",
       "fadeInText",
-      "flipInText"
+      "flipInText",
+      "drawSVG"
     )
   )
 

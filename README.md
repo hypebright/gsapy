@@ -34,8 +34,10 @@ With `gsapy` you can bring GSAP animations to your Shiny elements without any Ja
 | `waveText` | Page load or event | SplitText | Reveal text with wave effect |
 | `fadeInText` | Page load or event | SplitText | Fade in text |
 | `flipInText` | Page load or event | SplitText | Flip in text by rotation |
+| `drawSVG` | Page load or event | DrawSVG | Draw SVG elements |
 
 ![](https://hypebright.nl/wp-content/uploads/2025/05/gsapy-gif.gif)
+![](http://hypebright.nl/wp-content/uploads/2025/08/gsapy-drawSVG-gif-4.gif)
 
 What can you expect in the future?
 
@@ -159,6 +161,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
+# Examples
+You can find more examples in the `inst/examples` directory of the package. These examples demonstrate how to use the different animations and how to integrate them into your Shiny applications.
 
 # Licensing
 This R package provides an R interface to [GSAP (GreenSock Animation Platform)](https://github.com/greensock/GSAP). The package itself is licensed under the MIT License, meaning you are free to use, modify, and distribute it under permissive terms.
