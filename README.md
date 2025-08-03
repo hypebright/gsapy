@@ -161,6 +161,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
+# Examples
+You can find more examples in the `inst/examples` directory of the package. These examples demonstrate how to use the different animations and how to integrate them into your Shiny applications.
 
 # Licensing
 This R package provides an R interface to [GSAP (GreenSock Animation Platform)](https://github.com/greensock/GSAP). The package itself is licensed under the MIT License, meaning you are free to use, modify, and distribute it under permissive terms.
