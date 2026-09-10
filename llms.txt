@@ -17,6 +17,7 @@ animations into your Shiny apps.
 You can install the development version of `gsapy` from GitHub with:
 
 ``` r
+
 devtools::install_github("hypebright/gsapy")
 ```
 
@@ -58,6 +59,7 @@ function takes an `element`, or a tagList of elements, and an
 animate multiple `div` elements with the `fadeIn` animation:
 
 ``` r
+
 library(shiny)
 library(bslib)
 library(gsapy)
@@ -86,6 +88,7 @@ Updating from the server side is also possible by using the `id`
 argument:
 
 ``` r
+
 library(shiny)
 library(bslib)
 library(gsapy)
@@ -129,6 +132,7 @@ use the `waveText` animation to create a wave effect on the text. Here’s
 an example of how to use those text animations:
 
 ``` r
+
 library(shiny)
 library(bslib)
 library(gsapy)
